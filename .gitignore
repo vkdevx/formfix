@@ -1,0 +1,40 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+backend/.venv/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Frontend build
+frontend/node_modules/
+node_modules/
+.npm
+*.log
+
+# Databases & Ephemeral storage
+*.db
+*.sqlite3
+backend/formfix.db
+backend/formsaathi.db
+backend/temp_uploads/*
+!backend/temp_uploads/.gitkeep
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
