@@ -1,22 +1,12 @@
 # ==========================================
-# Stage 1: Build React Vite Frontend
+# FormFix Production Runtime Container
+# Pre-built Frontend + High-Performance FastAPI Backend
 # ==========================================
-FROM node:18-alpine AS frontend-builder
-WORKDIR /app/frontend
+FROM python:3.10-slim
 
-COPY frontend/package*.json ./
-RUN npm install
-
-COPY frontend/ ./
-RUN npm run build
-
-# ==========================================
-# Stage 2: Python Backend & Production Runtime
-# ==========================================
-FROM python:3.10-slim AS runtime
 WORKDIR /app
 
-# Install system dependencies for OpenCV and PyMuPDF
+# Install system libraries needed by OpenCV and PyMuPDF
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     libglib2.0-0 \
@@ -26,19 +16,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY backend/requirements.txt ./backend/
 RUN pip install --no-cache-dir -r ./backend/requirements.txt
 
-# Copy backend application code
+# Copy backend code
 COPY backend/ ./backend/
 
-# Copy built frontend assets from Stage 1 into frontend/dist
-COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
+# Copy pre-compiled production frontend (built with Vite)
+COPY frontend/dist/ ./frontend/dist/
 
 # Set working directory to backend
 WORKDIR /app/backend
 
-# Create ephemeral uploads directory
+# Ensure ephemeral storage directory exists
 RUN mkdir -p /app/backend/temp_uploads
 
-# Default port for Render, Railway, Fly.io, Cloud Run
+# Default port (Render automatically provides $PORT)
 ENV PORT=8000
 EXPOSE 8000
 
