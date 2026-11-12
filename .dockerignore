@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+node_modules/
+.git/
+.env
+formfix.db
+temp_uploads/*
+!temp_uploads/.gitkeep

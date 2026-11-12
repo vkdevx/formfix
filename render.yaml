@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: formfix
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DEMO_MODE_ENABLED
+        value: "True"
+      - key: SECRET_KEY
+        generateValue: true

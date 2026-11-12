@@ -1,0 +1,114 @@
+{
+  "template_name": "UP_POSTMATRIC_SCHOLARSHIP",
+  "state": "Uttar Pradesh",
+  "version": 1,
+  "reviewed_on": "2026-11-10",
+  "rules": [
+    {
+      "rule_id": "MANDATORY_DOCUMENTS",
+      "scope": "global",
+      "rule_type": "document_presence",
+      "params": {
+        "required_documents": [
+          "application",
+          "aadhaar",
+          "marksheet",
+          "bank_passbook",
+          "income_certificate"
+        ]
+      },
+      "severity": "error",
+      "message_key": "rule.mandatory_documents"
+    },
+    {
+      "rule_id": "AADHAAR_CHECKSUM",
+      "scope": "aadhaar",
+      "rule_type": "checksum",
+      "params": {
+        "field": "aadhaar_number",
+        "algorithm": "verhoeff",
+        "expected_length": 12
+      },
+      "severity": "error",
+      "message_key": "rule.aadhaar_checksum"
+    },
+    {
+      "rule_id": "IFSC_FORMAT",
+      "scope": "bank_passbook",
+      "rule_type": "regex",
+      "params": {
+        "field": "ifsc_code",
+        "pattern": "^[A-Z]{4}0[A-Z0-9]{6}$"
+      },
+      "severity": "error",
+      "message_key": "rule.ifsc_format"
+    },
+    {
+      "rule_id": "ACCOUNT_NUMBER_FORMAT",
+      "scope": "bank_passbook",
+      "rule_type": "regex",
+      "params": {
+        "field": "account_number",
+        "pattern": "^\\d{9,18}$"
+      },
+      "severity": "error",
+      "message_key": "rule.account_number_format"
+    },
+    {
+      "rule_id": "DOB_FORMAT",
+      "scope": "marksheet",
+      "rule_type": "regex",
+      "params": {
+        "field": "dob",
+        "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\\d{4}$"
+      },
+      "severity": "error",
+      "message_key": "rule.dob_format"
+    },
+    {
+      "rule_id": "STUDENT_AGE_RANGE",
+      "scope": "marksheet",
+      "rule_type": "date_logic",
+      "params": {
+        "field": "dob",
+        "min_age": 14,
+        "max_age": 35
+      },
+      "severity": "error",
+      "message_key": "rule.student_age_range"
+    },
+    {
+      "rule_id": "INCOME_CERT_VALIDITY",
+      "scope": "income_certificate",
+      "rule_type": "date_logic",
+      "params": {
+        "field": "issue_date",
+        "max_age_years": 3
+      },
+      "severity": "error",
+      "message_key": "rule.income_cert_validity"
+    },
+    {
+      "rule_id": "INCOME_CAP_LIMIT",
+      "scope": "income_certificate",
+      "rule_type": "numeric_limit",
+      "params": {
+        "field": "annual_income",
+        "max_limit": 250000
+      },
+      "severity": "error",
+      "message_key": "rule.income_cap_limit"
+    },
+    {
+      "rule_id": "BOARD_ALLOWED_VALUES",
+      "scope": "marksheet",
+      "rule_type": "allowed_values",
+      "params": {
+        "field": "board",
+        "allowed": ["UP Board", "CBSE", "CISCE", "ICSE"]
+      },
+      "severity": "warning",
+      "message_key": "rule.board_allowed_values"
+    }
+  ]
+}

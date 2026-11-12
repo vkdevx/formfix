@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  formfix:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: formfix_app
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DEMO_MODE_ENABLED=True
+      - SECRET_KEY=prod-secret-formfix-hackathon-2026-secure
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/backend/data
